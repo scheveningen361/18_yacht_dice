@@ -1,0 +1,17 @@
+# Yacht Dice RL — Python dependencies
+# Install with:  pip install -r requirements_rl.txt
+#
+# Tested with Python 3.10 / 3.11.
+# GPU training: replace torch with the CUDA variant from pytorch.org.
+
+# Core RL
+gymnasium>=0.29.0
+stable-baselines3>=2.3.0
+sb3-contrib>=2.3.0          # MaskablePPO
+
+# Deep learning
+torch>=2.1.0
+
+# Utilities
+numpy>=1.26.0
+tensorboard>=2.14.0         # training curves:  tensorboard --logdir logs/

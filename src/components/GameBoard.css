@@ -1,0 +1,191 @@
+.board {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ── Header ── */
+.board-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(14, 14, 28, 0.9);
+  backdrop-filter: blur(8px);
+  flex-shrink: 0;
+  gap: 12px;
+}
+
+.board-header-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.board-turn {
+  font-size: 13px;
+  color: var(--text-dim);
+}
+
+.board-turn strong {
+  color: var(--text);
+  font-size: 15px;
+}
+
+.board-roll-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.roll-pips {
+  display: flex;
+  gap: 4px;
+}
+
+.roll-pip {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--surface-3);
+  border: 1px solid var(--border);
+}
+
+.roll-pip--used {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.board-roll-hint {
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+.board-roll-hint--must {
+  color: var(--gold);
+  font-weight: 600;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.board-header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.board-total {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--accent);
+  min-width: 60px;
+  text-align: right;
+}
+
+/* ── Content layout ── */
+.board-content {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  grid-template-rows: 1fr;
+  flex: 1;
+  min-height: 0;   /* allows flex child to shrink below content size */
+  overflow: hidden;
+}
+
+/* ── Left panel: score table ── */
+.board-left {
+  border-right: 1px solid var(--border);
+  overflow: hidden;
+  background: var(--surface);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Right panel: dice area ── */
+.board-right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  padding: 32px 24px;
+  overflow: hidden;
+}
+
+.dice-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.dice-row {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+
+.dice-hint {
+  font-size: 12px;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+/* Roll button */
+.roll-btn-area {
+  display: flex;
+  justify-content: center;
+}
+
+.roll-btn {
+  min-width: 260px;
+  border-radius: var(--radius) !important;
+  letter-spacing: 0.3px;
+}
+
+.roll-btn--active {
+  opacity: 0.75;
+  pointer-events: none;
+}
+
+/* Bonus mini-bar */
+.board-bonus-hint {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 100%;
+  max-width: 320px;
+}
+
+.board-bonus-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.board-bonus-bar {
+  height: 4px;
+  background: var(--surface-3);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.board-bonus-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-dark), var(--accent));
+  border-radius: 999px;
+  transition: width 0.5s ease;
+}
+
+.board-bonus-fill--done {
+  background: linear-gradient(90deg, var(--green-dark), var(--green));
+}
+
+/* dice/roll area helpers stay under .board-right */

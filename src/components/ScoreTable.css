@@ -1,0 +1,230 @@
+.score-table-wrap {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  height: 100%;
+  min-height: 0;
+}
+
+.score-section {
+  border-bottom: 1px solid var(--border);
+}
+
+.score-section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 12px 3px;
+}
+
+.score-section-title {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+}
+
+.score-section-meta {
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+/* Score table */
+.score-tbl {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.sr {
+  transition: background 0.12s ease;
+  border-left: 3px solid transparent;
+}
+
+.sr td {
+  padding: 5px 12px;
+  font-size: 14px;
+}
+
+.sr-name {
+  color: var(--text-dim);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.sr-score {
+  text-align: right;
+  width: 64px;
+}
+
+/* ── Recorded (done) ── */
+.sr--recorded {
+  background: rgba(52, 211, 153, 0.05);
+  border-left: 3px solid rgba(52, 211, 153, 0.5);
+}
+
+.sr--recorded .sr-name {
+  color: var(--text-muted);
+  opacity: 0.75;
+}
+
+.sr-check {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--green);
+  opacity: 0.9;
+  flex-shrink: 0;
+}
+
+/* ── Unrecorded (waiting) ── */
+.sr:not(.sr--recorded):not(.sr--available):not(.sr--zero) {
+  border-left: 3px solid rgba(255, 255, 255, 0.06);
+}
+
+/* ── Clickable: non-zero score ── */
+.sr--available {
+  cursor: pointer;
+  background: rgba(129, 140, 248, 0.08);
+  border-left: 3px solid var(--accent);
+}
+
+.sr--available:hover {
+  background: rgba(129, 140, 248, 0.18);
+}
+
+.sr--available .sr-name {
+  color: var(--text);
+  font-weight: 600;
+  opacity: 1;
+}
+
+/* ── Clickable: zero score ── */
+.sr--zero {
+  cursor: pointer;
+  border-left: 3px solid rgba(248, 113, 113, 0.4);
+  background: rgba(248, 113, 113, 0.04);
+}
+
+.sr--zero:hover {
+  background: rgba(248, 113, 113, 0.1);
+}
+
+/* ── Score value chips ── */
+.sr-val {
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.sr-val--recorded {
+  color: var(--green);
+}
+
+.sr-val--potential {
+  color: var(--accent);
+  background: rgba(129, 140, 248, 0.15);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.sr-val--zero {
+  color: var(--red) !important;
+  background: rgba(248, 113, 113, 0.12) !important;
+}
+
+.sr-val--empty {
+  color: var(--border-light);
+  font-weight: 500;
+  font-size: 16px;
+}
+
+/* Bonus block */
+.bonus-block {
+  padding: 5px 12px 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.bonus-bar-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.bonus-bar {
+  flex: 1;
+  height: 5px;
+  background: var(--surface-3);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.bonus-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-dark), var(--accent));
+  border-radius: 999px;
+  transition: width 0.4s ease;
+}
+
+.bonus-fill--done {
+  background: linear-gradient(90deg, var(--green-dark), var(--green));
+}
+
+.bonus-bar-label {
+  font-size: 10px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.bonus-status {
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+.bonus-status--earned {
+  color: var(--green);
+  font-weight: 600;
+}
+
+/* Totals block */
+.score-totals {
+  padding: 5px 12px 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.score-total-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: var(--text-dim);
+  padding: 2px 0;
+}
+
+.score-total-row--bonus {
+  color: var(--green);
+  font-weight: 600;
+}
+
+.score-total-row--dim {
+  color: var(--text-muted);
+}
+
+.score-total-row--grand {
+  border-top: 1px solid var(--border);
+  margin-top: 4px;
+  padding-top: 6px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.score-grand {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--accent);
+}
