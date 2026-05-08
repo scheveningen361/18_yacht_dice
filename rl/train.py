@@ -22,7 +22,7 @@ import torch as th
 import torch.utils.data as data_utils
 from torch.utils.tensorboard import SummaryWriter
 
-__version__ = "1.3.0"
+__version__ = "1.4.0"
 
 _ROOT = Path(__file__).resolve().parent.parent
 if str(_ROOT) not in sys.path:
@@ -31,7 +31,7 @@ if str(_ROOT) not in sys.path:
 from sb3_contrib import MaskablePPO
 from sb3_contrib.common.wrappers import ActionMasker
 from stable_baselines3.common.callbacks import BaseCallback, CheckpointCallback
-from stable_baselines3.common.vec_env import DummyVecEnv, SubprocVecEnv
+from stable_baselines3.common.vec_env import DummyVecEnv
 
 from rl.env import YachtDiceEnv
 from rl.evaluate import (
@@ -233,13 +233,7 @@ def _make_env():
 
 
 def _make_vec_env(n_envs: int):
-    factories = [_make_env() for _ in range(n_envs)]
-    if n_envs == 1:
-        return DummyVecEnv(factories)
-    # Linux/Colab: fork, Windows: spawn
-    import platform
-    method = "fork" if platform.system() != "Windows" else "spawn"
-    return SubprocVecEnv(factories, start_method=method)
+    return DummyVecEnv([_make_env() for _ in range(n_envs)])
 
 
 # ------------------------------------------------------------------ #
@@ -276,7 +270,7 @@ def main(args):
 
     # ── MaskablePPO model (BC will pretrain its policy weights) ──────
     vec_env = _make_vec_env(args.n_envs)
-    print(f"환경 수: {args.n_envs} ({'SubprocVecEnv' if args.n_envs > 1 else 'DummyVecEnv'})", flush=True)
+    print(f"환경 수: {args.n_envs} (DummyVecEnv)", flush=True)
     policy_kwargs = dict(net_arch=args.net_arch)
     model = MaskablePPO(
         "MlpPolicy",
