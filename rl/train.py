@@ -29,7 +29,7 @@ if str(_ROOT) not in sys.path:
 from sb3_contrib import MaskablePPO
 from sb3_contrib.common.wrappers import ActionMasker
 from stable_baselines3.common.callbacks import BaseCallback, CheckpointCallback
-from stable_baselines3.common.vec_env import DummyVecEnv
+from stable_baselines3.common.vec_env import DummyVecEnv, SubprocVecEnv
 
 from rl.env import YachtDiceEnv
 from rl.evaluate import (
@@ -220,11 +220,24 @@ def run_bc_phase(
 # VecEnv factory (with ActionMasker wrapper for MaskablePPO)
 # ------------------------------------------------------------------ #
 
+def _action_mask_fn(env):
+    return env.action_masks()
+
+
 def _make_env():
     def _init():
-        env = YachtDiceEnv()
-        return ActionMasker(env, lambda e: e.action_masks())
+        return ActionMasker(YachtDiceEnv(), _action_mask_fn)
     return _init
+
+
+def _make_vec_env(n_envs: int):
+    factories = [_make_env() for _ in range(n_envs)]
+    if n_envs == 1:
+        return DummyVecEnv(factories)
+    # Linux/Colab: fork, Windows: spawn
+    import platform
+    method = "fork" if platform.system() != "Windows" else "spawn"
+    return SubprocVecEnv(factories, start_method=method)
 
 
 # ------------------------------------------------------------------ #
@@ -258,7 +271,8 @@ def main(args):
     writer.add_scalar("baseline/greedy_mean", greedy_mean, 0)
 
     # ── MaskablePPO model (BC will pretrain its policy weights) ──────
-    vec_env = DummyVecEnv([_make_env()])
+    vec_env = _make_vec_env(args.n_envs)
+    print(f"환경 수: {args.n_envs} ({'SubprocVecEnv' if args.n_envs > 1 else 'DummyVecEnv'})", flush=True)
     policy_kwargs = dict(net_arch=args.net_arch)
     model = MaskablePPO(
         "MlpPolicy",
@@ -377,6 +391,13 @@ if __name__ == "__main__":
     bc.add_argument(
         "--greedy-eval-games", type=int, default=200,
         help="greedy baseline 측정 게임 수 (default: 200)",
+    )
+
+    # Environment
+    env_g = p.add_argument_group("Environment")
+    env_g.add_argument(
+        "--n-envs", type=int, default=1,
+        help="PPO 병렬 환경 수. GPU 활용도 향상 (Colab T4 권장: 8, default: 1)",
     )
 
     # Output paths
