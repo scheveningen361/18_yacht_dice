@@ -22,6 +22,8 @@ import torch as th
 import torch.utils.data as data_utils
 from torch.utils.tensorboard import SummaryWriter
 
+__version__ = "1.3.0"
+
 _ROOT = Path(__file__).resolve().parent.parent
 if str(_ROOT) not in sys.path:
     sys.path.insert(0, str(_ROOT))
@@ -245,6 +247,8 @@ def _make_vec_env(n_envs: int):
 # ------------------------------------------------------------------ #
 
 def main(args):
+    print(f"rl/train.py  v{__version__}", flush=True)
+
     # Resolve output directories (CLI args override defaults)
     checkpoint_dir = Path(args.checkpoint_dir)
     log_dir = Path(args.log_dir)
